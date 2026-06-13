@@ -12,6 +12,7 @@ async function bootstrap() {
     'http://localhost:5173',
     'http://localhost:5174',
     'http://localhost:4173',
+    'https://task-manager-pwa-app.netlify.app/login',
   ];
 
   app.enableCors({
