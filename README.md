@@ -1,98 +1,171 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# To Do API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A NestJS backend for a task management app with JWT authentication, PostgreSQL persistence through Prisma, offline sync support, and web push notifications for task reminders.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## What This Project Includes
 
-## Description
+- User registration, login, logout, and session tracking
+- Task CRUD with status, priority, due dates, reminders, soft delete, and pagination
+- Offline-friendly sync endpoint with operation replay and conflict detection
+- Web push subscription storage and test notification delivery
+- Scheduled reminder notifications for incomplete tasks
+- Swagger API documentation with bearer token support
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Tech Stack
 
-## Project setup
+- NestJS
+- TypeScript
+- Prisma
+- PostgreSQL
+- JWT
+- Web Push
 
-```bash
-$ npm install
-```
+## Prerequisites
 
-## Compile and run the project
+Make sure these are installed before you start:
 
-```bash
-# development
-$ npm run start
+- Node.js 20 or newer
+- npm
+- PostgreSQL
 
-# watch mode
-$ npm run start:dev
+## Environment Variables
 
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
+Create a local environment file from the example:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+cp .env.example .env
 ```
 
-## Deployment
+Set the following values in `.env`:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/todo_app?schema=public"
+JWT_SECRET="replace-with-a-secure-secret"
+VAPID_SUBJECT="mailto:you@example.com"
+VAPID_PUBLIC_KEY=""
+VAPID_PRIVATE_KEY=""
+PORT=3000
+```
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Notes:
+
+- `DATABASE_URL` is required for Prisma and PostgreSQL.
+- `JWT_SECRET` is recommended for any shared or deployed environment. If omitted, the app falls back to `dev-secret`.
+- `VAPID_*` values are required only if you want browser push notifications to work.
+- `PORT` is optional and defaults to `3000`.
+
+## Installation
+
+1. Install dependencies:
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+2. Create the database in PostgreSQL if it does not already exist.
 
-## Resources
+3. Apply Prisma migrations:
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+npm run prisma:migrate
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+4. Start the development server:
 
-## Support
+```bash
+npm run start:dev
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+The API will be available at `http://localhost:3000` by default.
 
-## Stay in touch
+## API Documentation
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Swagger is enabled locally at:
+
+```text
+http://localhost:3000/api
+```
+
+Use the Swagger `Authorize` button with a bearer token returned from login or registration.
+
+## Main Endpoints
+
+### Auth
+
+- `POST /auth/register`
+- `POST /auth/login`
+- `POST /auth/logout`
+
+### Users
+
+- `GET /users/me`
+
+### Tasks
+
+- `POST /tasks`
+- `GET /tasks`
+- `GET /tasks/:id`
+- `PATCH /tasks/:id`
+- `DELETE /tasks/:id`
+
+Task records support:
+
+- `status`: `TODO`, `IN_PROGRESS`, `DONE`
+- `priority`: `LOW`, `MEDIUM`, `HIGH`
+- optional `dueDate` and `reminderAt`
+- pagination, filtering, searching, and sorting on list requests
+
+### Sync
+
+- `POST /sync`
+
+The sync API accepts batched create, update, and delete operations and returns:
+
+- per-operation results
+- replay protection for duplicate operation IDs
+- conflict responses when a task version has changed on the server
+- changed tasks since the client’s last sync timestamp
+
+### Notifications
+
+- `POST /notifications/subscriptions`
+- `DELETE /notifications/subscriptions`
+- `POST /notifications/test`
+
+Reminder notifications are processed every minute for tasks with a due reminder that has not already been sent.
+
+## Available Scripts
+
+```bash
+npm run start
+npm run start:dev
+npm run start:debug
+npm run build
+npm run start:prod
+npm run prisma:generate
+npm run prisma:migrate
+npm run prisma:studio
+npm run test
+npm run test:e2e
+npm run test:cov
+npm run lint
+```
+
+## Development Notes
+
+- CORS is enabled for local frontend ports `3001`, `5173`, `5174`, and `4173`, plus the deployed Netlify client currently listed in `src/main.ts`.
+- Task deletion is soft delete based, so deleted records are tracked for sync workflows.
+- Push subscriptions that return `404` or `410` during delivery are automatically marked deleted.
+
+## Testing
+
+Run the test suites with:
+
+```bash
+npm run test
+npm run test:e2e
+```
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+This project is currently marked `UNLICENSED` in `package.json`.
